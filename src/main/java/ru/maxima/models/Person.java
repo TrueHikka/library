@@ -2,6 +2,7 @@ package ru.maxima.models;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +15,11 @@ public class Person {
     private Long id;
 
     @NotEmpty(message = "Name is required")
-    @Size(min=2, max=50, message="Name must be between 2 and 50 symbols")
+    @Size(max=50, message="Name must be less than 50 characters")
+    @Pattern(regexp = "^[A-Za-z]+ [A-Za-z]+ [A-Za-z]+$", message = "Name must contain full name (first, middle and last name)")
     private String name;
 
-    @Min(value = 5, message = "Age should be min 5 years")
+    @Min(value = 1950, message = "Birth year must be greater than or equal to 1950")
     private Integer birthYear;
 
     private List<Book> books;
