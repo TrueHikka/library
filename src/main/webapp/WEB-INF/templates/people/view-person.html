@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Person by id</title>
+    <link rel="stylesheet" th:href="@{/css/person_css/style_person.css}"/>
+</head>
+
+<body>
+<h1>The person's page</h1>
+<div class="details">
+    <p><strong>The name of person:</strong> <span th:text="${personById.name}"></span></p>
+    <p><strong>Year of birth:</strong> <span th:text="${personById.birthYear}"></span></p>
+
+    <div th:if="${personById.books.isEmpty()}">
+        <p>The man has not taken any books yet</p>
+    </div>
+    <div th:if="${!personById.books.isEmpty()}">
+        <p>Books:</p>
+        <ul>
+            <li th:each="book : ${personById.books}">
+                <span th:text="${book.title}">Title</span> by <span th:text="${book.author}">Author</span>, <span th:text="${book.year}">Year</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="actions" style="display: flex;">
+        <a th:href="@{/people/{id}/edit(id=${personById.id})}">
+            <button>Edit</button>
+        </a>
+        <form method="POST" th:action="@{/people/{id}/delete(id=${personById.id})}">
+            <button class="delete" type="submit">Delete</button>
+        </form>
+    </div>
+
+    <a th:href="@{/people}">Back to all people</a>
+
+    <span class="separator">|</span>
+
+    <a th:href="@{/books}">Go to all books</a>
+</div>
+</body>
+</html>

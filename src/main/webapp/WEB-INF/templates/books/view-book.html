@@ -1,0 +1,115 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book</title>
+    <link rel="stylesheet" th:href="@{/css/book_css/style_book.css}"/>
+    <style>
+        .special-link {
+            color: #f59455;
+            text-decoration: none;
+        }
+        .special-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+<h1>The book's page</h1>
+<div class="details">
+    <p><strong>Book title:</strong> <span th:text="${bookById.title}"></span></p>
+    <p><strong>Author:</strong> <span th:text="${bookById.author}"></span></p>
+    <p><strong>Year of publication:</strong> <span th:text="${bookById.year}"></span></p>
+
+    <!-- Проверка на то, чему равен айди человека -->
+    <!--<p><strong>Person ID:</strong> <span th:text="${bookById.personId}"></span></p>-->
+
+    <div th:if="${bookById.personId == null || bookById.personId == 0}">
+        <p>The book is free. Who should I assign it to?</p>
+        <form th:action="@{/books/{id}/assign(id=${bookById.bookId})}" method="post">
+            <label for="select">Select a person:</label>
+            <select class="person-select" name="personId" id="select">
+                <option th:each="person : ${allPeople}" th:value="${person.id}" th:text="${person.name}">
+                </option>
+            </select>
+            <button type="submit" class="assign-button">Assign a book</button>
+        </form>
+    </div>
+    <div class="book-owner" th:if="${bookById.personId != null && bookById.personId != 0}">
+        <p>The book is now at:
+            <span th:each="person : ${allPeople}" th:if="${person.getId() == bookById.personId}">
+                <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName()}"></a>
+            </span>
+        </p>
+        <form th:action="@{/books/{id}/free(id=${bookById.bookId})}" method="post">
+            <button type="submit" class="free-button">Free the book</button>
+        </form>
+    </div>
+
+    <div class="actions" style="display: flex;">
+        <a th:href="@{/books/{id}/edit(id=${bookById.bookId})}">
+            <button>Edit</button>
+        </a>
+        <form th:action="@{/books/{id}/delete(id=${bookById.bookId})}" method="post">
+            <button class="delete" type="submit">Delete</button>
+        </form>
+    </div>
+    <a th:href="@{/books}" class="special-link">Back to all books</a>
+</div>
+</body>
+</html>
+
+
+<!--<!doctype html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <title>Book</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/style_book.css}"/>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<h1>The book's page</h1>-->
+<!--<div class="details">-->
+<!--    <p><strong>Book title:</strong> <span th:text="${bookById.getTitle()}"></span></p>-->
+<!--    <p><strong>Author:</strong> <span th:text="${bookById.getAuthor()}"></span></p>-->
+<!--    <p><strong>Year of publication:</strong> <span th:text="${bookById.getYear()}"></span></p>-->
+
+
+<!--    <div class="actions" style="display: flex;">-->
+<!--        <a th:href="@{/books/{id}/edit(id=${bookById.getBookId()})}">-->
+<!--            <button>Edit</button>-->
+<!--        </a>-->
+<!--        <form th:action="@{/books/{id}/delete(id=${bookById.getBookId()})}" method="post">-->
+<!--            <button type="submit">Delete</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--        <div th:if="${bookById.personId == null}">-->
+<!--            <p>The book is free. Who should I assign it to?</p>-->
+<!--            <form th:action="@{/books/{id}/assign(id=${bookById.bookId})}" method="post">-->
+<!--                <label for="select"></label>-->
+<!--                    <select th:object="${allPeople}" id="select">-->
+<!--                        <option th:each="person : ${allPeople}" th:value="${person.getId()}" th:text="${person.getName()}"></option>-->
+<!--                    </select>-->
+
+<!--                <button type="submit">Assign a book</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div th:if="${bookById.personId != null}">-->
+<!--            <p>The book is now at: <span th:value="${bookById.personId}" th:text="${}"></span></p>-->
+<!--            <form th:action="@{/books/{id}/free(id=${bookById.bookId})}" method="post">-->
+<!--                <button type="submit">Free the book</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

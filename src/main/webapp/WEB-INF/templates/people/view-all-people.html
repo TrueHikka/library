@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All people</title>
+    <link rel="stylesheet" th:href="@{/css/person_css/style_all_people.css}"/>
+    <style>
+        .special-link {
+            color: #2b7b6c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>List of people</h1>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Birth Year</th>
+            <th>Link on person page</th>
+        </tr>
+        <tr th:each="person : ${allPeople}">
+            <td th:text="${person.getName()}"></td>
+            <td th:text="${person.getBirthYear()}"></td>
+            <td>
+                <a th:href="@{/people/{id}(id=${person.getId()})}">View</a>
+            </td>
+        </tr>
+    </table>
+    <a class="actions" th:href="@{/people/new}">Create new person</a>
+
+    <span class="separator">|</span>
+
+    <a th:href="@{/books}" class="special-link">Go to all books</a>
+
+</body>
+
+</html>

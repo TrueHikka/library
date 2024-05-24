@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All books</title>
+    <link rel="stylesheet" th:href="@{/css/book_css/style_all_books.css}"/>
+    <style>
+        .special-link {
+            color: #2b7b6c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>All books</h1>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th>Link on book page</th>
+    </tr>
+    <tr th:each="book : ${allBooks}">
+        <td th:text="${book.getTitle()}"></td>
+        <td th:text="${book.getAuthor()}"></td>
+        <td th:text="${book.getYear()}"></td>
+        <td>
+            <a th:href="@{/books/{id}(id=${book.getBookId()})}">View</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{/books/new}">Add New Book</a>
+
+<span class="separator">|</span>
+
+<a th:href="@{/people}" class="special-link">Go to all people</a>
+
+</body>
+
+</html>
