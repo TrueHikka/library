@@ -23,18 +23,22 @@
         <div>
             <label for="author">Author:</label>
             <input type="text" id="author" name="author" th:field="*{author}" required/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('author')}"
-                  th:errors="*{author}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('author')}"
+                      th:errors="*{author}"
+                />
+            </div>
         </div>
         <div>
             <label for="year">Year of publication:</label>
             <input type="number" id="year" name="year" th:field="*{year}" required/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('year')}"
-                  th:errors="*{year}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('year')}"
+                      th:errors="*{year}"
+                />
+            </div>
         </div>
         <div class="button-container">
             <button type="submit">Edit</button>

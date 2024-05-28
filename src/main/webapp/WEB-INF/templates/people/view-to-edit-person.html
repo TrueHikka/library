@@ -14,18 +14,22 @@
         <div>
             <label for="name">Enter the name of edited person:</label>
             <input type="text" id="name" th:field="*{name}"/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('name')}"
-                  th:errors="*{name}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('name')}"
+                      th:errors="*{name}"
+                />
+            </div>
         </div>
         <div>
             <label for="birthYear">Enter the birth year of edited person:</label>
             <input type="number" id="birthYear" name="birthYear" th:field="*{birthYear}"/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('birthYear')}"
-                  th:errors="*{birthYear}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('birthYear')}"
+                      th:errors="*{birthYear}"
+                />
+            </div>
         </div>
         <div class="button-container">
             <button type="submit">Edit</button>

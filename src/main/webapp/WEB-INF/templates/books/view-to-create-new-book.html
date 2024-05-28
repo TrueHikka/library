@@ -15,26 +15,32 @@
         <div>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('title')}"
-                  th:errors="*{title}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('title')}"
+                      th:errors="*{title}"
+                />
+            </div>
         </div>
         <div>
             <label for="author">Author:</label>
             <input type="text" id="author" name="author" required/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('author')}"
-                  th:errors="*{author}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('author')}"
+                      th:errors="*{author}"
+                />
+            </div>
         </div>
         <div>
             <label for="year">Year of publication:</label>
             <input type="number" id="year" name="year" required/>
-            <span class="error"
-                  th:if="${#fields.hasErrors('year')}"
-                  th:errors="*{year}"
-            />
+            <div>
+                <span class="error"
+                      th:if="${#fields.hasErrors('year')}"
+                      th:errors="*{year}"
+                />
+            </div>
         </div>
         <div class="button-container">
             <button type="submit">Create</button>
