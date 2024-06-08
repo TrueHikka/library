@@ -28,18 +28,18 @@ public class BookDAOClass implements BookDAO{
 
     @Override
     public void save(Book book) {
-        if(book.getBookId() == null) {
-            List<Book> books = getAllBooks();
-            if (!books.isEmpty()) {
-                book.setBookId(books.stream()
-                        .map(Book::getBookId)
-                        .max(Comparator.naturalOrder())
-                        .orElse(0L) + 1);
-            }
-        }
+//        if(book.getBookId() == null) {
+//            List<Book> books = getAllBooks();
+//            if (!books.isEmpty()) {
+//                book.setBookId(books.stream()
+//                        .map(Book::getBookId)
+//                        .max(Comparator.naturalOrder())
+//                        .orElse(0L) + 1);
+//            }
+//        }
 
-        jdbcTemplate.update("insert into book (book_id, title, author, year_of_publication, person_id) values (?, ?, ?, ?, ?)",
-                book.getBookId(), book.getTitle(), book.getAuthor(), book.getYear(), book.getPersonId());
+        jdbcTemplate.update("insert into book (title, author, year_of_publication, person_id) values (?, ?, ?, ?)",
+                book.getTitle(), book.getAuthor(), book.getYear(), book.getPersonId());
     }
 
     @Override

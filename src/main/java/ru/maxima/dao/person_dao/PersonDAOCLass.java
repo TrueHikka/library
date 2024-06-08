@@ -34,19 +34,24 @@ public class PersonDAOCLass implements PersonDAO{
 
     @Override
     public void save(Person person) {
-        if (person.getId() == null) {
-            List<Person> allPeople = getAllPeople();
-            if (!allPeople.isEmpty()) {
-                person.setId(allPeople.stream()
-                        .map(Person::getId)
-                        .max(Comparator.naturalOrder())
-                        .orElse(0L) + 1);
-            }
-        }
-
-        jdbcTemplate.update("insert into person(id, full_name, birth_year) values(?,?,?)", person.getId(),person.getName(), person.getBirthYear());
-
+        jdbcTemplate.update("INSERT INTO person (full_name, birth_year) VALUES (?, ?)",
+                person.getName(), person.getBirthYear());
     }
+
+//    @Override
+//    public void save(Person person) {
+//        if (person.getId() == null) {
+//            List<Person> allPeople = getAllPeople();
+//            if (!allPeople.isEmpty()) {
+//                person.setId(allPeople.stream()
+//                        .map(Person::getId)
+//                        .max(Comparator.naturalOrder())
+//                        .orElse(0L) + 1);
+//            }
+//        }
+//
+//        jdbcTemplate.update("insert into person(id, full_name, birth_year) values(?,?,?)", person.getId(),person.getName(), person.getBirthYear());
+//    }
 
     @Override
     public void update(Person person, Long id) {
