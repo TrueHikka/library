@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.maxima.dao.book_dao.BookDAO;
 import ru.maxima.dao.book_dao.BookDAOClass;
+import ru.maxima.dao.person_dao.PersonDAO;
 import ru.maxima.dao.person_dao.PersonDAOCLass;
 import ru.maxima.models.Book;
 import ru.maxima.models.Person;
@@ -16,12 +18,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-    private final BookDAOClass bookDAO;
-    private final PersonDAOCLass personDAO;
+    private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
     private final String redirectAllBooks = "redirect:/books";
 
     @Autowired
-    public BooksController(BookDAOClass bookDAO, PersonDAOCLass personDAO) {
+    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
         this.personDAO = personDAO;
     }
@@ -37,7 +39,7 @@ public class BooksController {
     public String getBookById(@PathVariable("id") Long bookId, Model model) {
         Book book = bookDAO.findBookById(bookId);
         List<Person> people = personDAO.getAllPeople();
-        model.addAttribute("bookById", book);
+        model.addAttribute("book", book);
         model.addAttribute("allPeople", people);
 
 

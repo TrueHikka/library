@@ -1,65 +1,61 @@
 package ru.maxima.dao.person_dao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Repository;
-import ru.maxima.dao.mapper.BookMapper;
-import ru.maxima.dao.mapper.PersonMapper;
-import ru.maxima.models.Book;
 import ru.maxima.models.Person;
 
-import java.util.Comparator;
+
 import java.util.List;
 
 @Repository
 public class PersonDAOCLass implements PersonDAO{
 
-    private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
 
-    public PersonDAOCLass(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    @Autowired
+    public PersonDAOCLass(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public List<Person> getAllPeople() {
-        return jdbcTemplate.query("select * from person", new PersonMapper());
+        Session session = sessionFactory.getCurrentSession();
+        Query<Person> query = session.createQuery("from Person", Person.class);
+        return query.getResultList();
     }
 
     @Override
     public Person findPersonById(Long id) {
-        Person person = jdbcTemplate.queryForObject("select * from person where id =?", new Object[]{id}, new PersonMapper());
-        List<Book> books = jdbcTemplate.query("select * from book where person_id=?", new Object[]{id}, new BookMapper());
-        person.setBooks(books);
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        Hibernate.initialize(person.getBooks());
         return person;
     }
 
     @Override
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person (full_name, birth_year) VALUES (?, ?)",
-                person.getName(), person.getBirthYear());
+        Session session = sessionFactory.getCurrentSession();
+        session.save(person);
     }
-
-//    @Override
-//    public void save(Person person) {
-//        if (person.getId() == null) {
-//            List<Person> allPeople = getAllPeople();
-//            if (!allPeople.isEmpty()) {
-//                person.setId(allPeople.stream()
-//                        .map(Person::getId)
-//                        .max(Comparator.naturalOrder())
-//                        .orElse(0L) + 1);
-//            }
-//        }
-//
-//        jdbcTemplate.update("insert into person(id, full_name, birth_year) values(?,?,?)", person.getId(),person.getName(), person.getBirthYear());
-//    }
 
     @Override
     public void update(Person person, Long id) {
-        jdbcTemplate.update("update person set full_name=?, birth_year=? where id=?", person.getName(), person.getBirthYear(), id);
+        Session session = sessionFactory.getCurrentSession();
+        session.update(person);
     }
 
     @Override
     public void delete(Long id) {
-        jdbcTemplate.update("delete from person where id=?", id);
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        session.delete(person);
     }
 }

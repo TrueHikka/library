@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.maxima.dao.person_dao.PersonDAO;
 import ru.maxima.dao.person_dao.PersonDAOCLass;
 import ru.maxima.models.Person;
 
@@ -14,11 +15,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-    private final PersonDAOCLass personDAO;
+    private final PersonDAO personDAO;
     private final String redirectAllPeople = "redirect:/people";
 
     @Autowired
-    public PeopleController(PersonDAOCLass personDAO) {
+    public PeopleController(PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
 
