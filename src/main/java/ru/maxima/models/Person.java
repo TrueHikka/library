@@ -24,7 +24,7 @@ public class Person {
 
     @NotEmpty(message = "Name is required")
     @Size(max=50, message="Name must be less than 50 characters")
-    @Pattern(regexp = "^[\\\\p{L} '-]+ [\\\\p{L} '-]+ [\\\\p{L} '-]+$", message = "Name must contain full name (first, middle and last name)")
+    @Pattern(regexp = "^[A-Za-z]+ [A-Za-z]+ [A-Za-z]+$", message = "Name must contain full name (first, middle and last name)")
     @Column(name = "full_name")
     private String name;
 
