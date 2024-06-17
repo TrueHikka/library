@@ -1,13 +1,11 @@
-package ru.maxima.dao.person_dao;
+package ru.maxima.service.people_service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
 import ru.maxima.models.Person;
 
 import java.util.List;
 
-
-public interface PersonDAO {
+public interface PeopleServiceinf {
     @Transactional
     List<Person> getAllPeople();
 

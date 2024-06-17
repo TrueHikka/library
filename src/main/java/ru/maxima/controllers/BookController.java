@@ -6,46 +6,39 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.maxima.dao.book_dao.BookDAO;
-import ru.maxima.dao.book_dao.BookDAOClass;
-import ru.maxima.dao.person_dao.PersonDAO;
-import ru.maxima.dao.person_dao.PersonDAOCLass;
 import ru.maxima.models.Book;
 import ru.maxima.models.Person;
+import ru.maxima.service.book_service.BookServiceInf;
+import ru.maxima.service.people_service.PeopleServiceinf;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/books")
-public class BooksController {
-    private final BookDAO bookDAO;
-    private final PersonDAO personDAO;
+public class BookController {
+    private final BookServiceInf bookServiceInf;
+    private final PeopleServiceinf peopleServiceinf;
     private final String redirectAllBooks = "redirect:/books";
 
     @Autowired
-    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
-        this.bookDAO = bookDAO;
-        this.personDAO = personDAO;
+    public BookController(BookServiceInf bookServiceInf, PeopleServiceinf peopleServiceinf) {
+        this.bookServiceInf = bookServiceInf;
+        this.peopleServiceinf = peopleServiceinf;
     }
 
     @GetMapping()
     public String getAllBooks(Model model) {
-        List<Book>  books = bookDAO.getAllBooks();
+        List<Book>  books = bookServiceInf.getAllBooks();
         model.addAttribute("allBooks", books);
         return "books/view-all-books";
     }
 
     @GetMapping("/{id}")
     public String getBookById(@PathVariable("id") Long bookId, Model model) {
-        Book book = bookDAO.findBookById(bookId);
-        List<Person> people = personDAO.getAllPeople();
+        Book book = bookServiceInf.findBookById(bookId);
+        List<Person> people = peopleServiceinf.getAllPeople();
         model.addAttribute("book", book);
         model.addAttribute("allPeople", people);
-
-
-//        System.out.println("Book ID: " + bookId);
-//        System.out.println("Book Person ID: " + book.getPersonId());
-
         return "books/view-book";
     }
 
@@ -60,13 +53,13 @@ public class BooksController {
         if(result.hasErrors()) {
             return "books/view-to-create-new-book";
         }
-        bookDAO.save(book);
+        bookServiceInf.save(book);
         return redirectAllBooks;
     }
 
     @GetMapping("/{id}/edit")
     public String getPageToEditBook(@PathVariable("id") Long bookId, Model model) {
-        Book book = bookDAO.findBookById(bookId);
+        Book book = bookServiceInf.findBookById(bookId);
         model.addAttribute("editedBook", book);
         return "books/view-to-edit-book";
     }
@@ -76,25 +69,25 @@ public class BooksController {
         if(result.hasErrors()) {
             return "books/view-to-edit-book";
         }
-        bookDAO.update(book, bookId);
+        bookServiceInf.update(book, bookId);
         return redirectAllBooks;
     }
 
     @PostMapping("/{id}/delete")
     public String deleteBook(@PathVariable("id") Long bookId) {
-        bookDAO.delete(bookId);
+        bookServiceInf.delete(bookId);
         return redirectAllBooks;
     }
 
     @PostMapping("/{id}/assign")
     public String assignBook(@PathVariable("id") Long bookId, @RequestParam("personId") Long personId) {
-        bookDAO.assignBookToPerson(bookId, personId);
+        bookServiceInf.assignBookToPerson(bookId, personId);
         return "redirect:/books/" + bookId;
     }
 
     @PostMapping("/{id}/free")
     public String freeBook(@PathVariable("id") Long bookId) {
-        bookDAO.freeBook(bookId);
+        bookServiceInf.freeBook(bookId);
         return "redirect:/books/" + bookId;
     }
 }
