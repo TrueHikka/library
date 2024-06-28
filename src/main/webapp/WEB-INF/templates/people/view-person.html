@@ -14,13 +14,13 @@
     <p><strong>The name of person:</strong> <span th:text="${personById.name}"></span></p>
     <p><strong>Year of birth:</strong> <span th:text="${personById.birthYear}"></span></p>
 
-    <div th:if="${personById.books.isEmpty()}">
+    <div th:if="${personById.getBooks().isEmpty()}">
         <p>The man has not taken any books yet</p>
     </div>
-    <div th:if="${!personById.books.isEmpty()}">
+    <div th:if="${!personById.getBooks().isEmpty()}">
         <p>Books:</p>
         <ul>
-            <li th:each="book : ${personById.books}">
+            <li th:each="book : ${personById.getBooks()}">
                 <span th:text="${book.title}">Title</span> by <span th:text="${book.author}">Author</span>, <span th:text="${book.year}">Year</span>
             </li>
         </ul>

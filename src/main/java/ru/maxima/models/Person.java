@@ -32,7 +32,7 @@ public class Person {
     @Column(name  =  "birth_year")
     private Integer birthYear;
 
-    @OneToMany(mappedBy = "bookOwner")
+    @OneToMany(mappedBy = "bookOwner", fetch = FetchType.LAZY)
     private List<Book> books;
 }
 

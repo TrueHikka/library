@@ -1,15 +1,11 @@
-package ru.maxima.dao.book_dao;
+package ru.maxima.service.book_service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import ru.maxima.models.Book;
-import ru.maxima.models.Person;
 
 import java.util.List;
 
-
-public interface BookDAO {
+public interface BookServiceInf {
     @Transactional
     List<Book> getAllBooks();
 
